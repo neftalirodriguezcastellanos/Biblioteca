@@ -5,15 +5,10 @@ import { routeLogin, routeRoot } from "../../settings/routeConfig";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useConfiguration } from "./ConfigurationContext";
 import { useLayout } from "./LayoutContext";
-import { tiempoCierreSession } from "../../settings/utils";
+import { getLoginForm } from "../../model/formsModel";
 
 export const tokenName = "biblioteca-dashboard-token";
 export const tokenRefreshName = "biblioteca-dashboard-tokenRefresh";
-
-const getLoginForm = () => ({
-  username: { value: "", error: false },
-  password: { value: "", error: false },
-});
 
 const getConfiguracionDefault = () => ({
   tituloNavegador: "BIBLIOTECA",
@@ -31,10 +26,6 @@ const getConfiguracionDefault = () => ({
   rutaImagenPortal: "",
 });
 
-const getCambiarPasswordForm = () => ({
-  username: { value: "", error: false },
-});
-
 export const SessionContext = createContext();
 
 export const SessionProvider = (props) => {
@@ -43,13 +34,7 @@ export const SessionProvider = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [usuario, setUsuario] = useState(null);
-  const [token, setToken] = useState("");
-  const [permisosModulos, setPermisosModulos] = useState([]);
-  const [permisosPaginas, setPermisosPaginas] = useState([]);
-  const [permisosBotones, setPermisosBotones] = useState([]);
-  const [configuracion, setConfiguracion] = useState(getConfiguracionDefault());
-  const [definicionMenu, setDefinicionMenu] = useState({
+  const menuDefault = {
     mnuLibros: {
       mostrar: true,
       nombre: "Libros",
@@ -61,49 +46,18 @@ export const SessionProvider = (props) => {
         },
       },
     },
-    // mnuUsuarios: {
-    //   mostrar: true,
-    //   nombre: "Usuarios",
-    //   _paginas: {
-    //     usuarios: {
-    //       mostrar: true,
-    //       path: "/usuarios",
-    //       nombre: "Administar",
-    //     },
-    //   },
-    // },
     _paths: {},
-  });
+  };
+
+  const [usuario, setUsuario] = useState(null);
+  const [token, setToken] = useState("");
+  const [permisosBotones, setPermisosBotones] = useState([]);
+  const [configuracion, setConfiguracion] = useState(getConfiguracionDefault());
+  const [definicionMenu, setDefinicionMenu] = useState(menuDefault);
 
   const [usuarioEnSesion, setUsuarioEnSesion] = useState(false);
   const [loginForm, setLoginForm] = useState(getLoginForm());
   const [previousRoute, setPreviousRoute] = useState("");
-  const [cambiarPasswordForm, setCambiarPasswordForm] = useState(
-    getCambiarPasswordForm()
-  );
-  const [modalCambioPassword, setModalOpenCambioPasswordForm] = useState(false);
-
-  const events = [
-    "load",
-    "mousemove",
-    "mousedown",
-    "click",
-    "scroll",
-    "keypress",
-  ];
-  let timer;
-  const handleLogoutTimer = () => {
-    timer = setTimeout(() => {
-      resetTimer();
-      Object.values(events).forEach((item) => {
-        window.removeEventListener(item, resetTimer);
-      });
-      handleClickCerrarSesion();
-    }, tiempoCierreSession);
-  };
-  const resetTimer = () => {
-    if (timer) clearTimeout(timer);
-  };
 
   const handleChangeLoginForm = (e) => {
     setLoginForm({
@@ -117,17 +71,15 @@ export const SessionProvider = (props) => {
 
   const handleClickCerrarSesion = () => {
     setToken("");
-    setPermisosModulos([]);
-    setPermisosPaginas([]);
     setPermisosBotones([]);
     setConfiguracion(getConfiguracionDefault());
     setUsuarioEnSesion(false);
     setLoginForm(getLoginForm());
+    setDefinicionMenu(menuDefault);
 
     localStorage.removeItem(tokenName);
     localStorage.removeItem(tokenRefreshName);
     setPreviousRoute(location.pathname);
-    navigate(routeLogin);
     setUsuario(null);
   };
 
@@ -147,7 +99,7 @@ export const SessionProvider = (props) => {
     }
 
     const loginRequest = {
-      sUserName: username.value,
+      sEmail: username.value,
       sPassword: password.value,
     };
 
@@ -162,7 +114,6 @@ export const SessionProvider = (props) => {
       });
       handleCloseLoader();
       const response = await loginResponse.json();
-
       if (response.hasError) {
         handleOpenAlert(response.message, "error");
         return;
@@ -179,25 +130,94 @@ export const SessionProvider = (props) => {
   };
 
   const saveLoginResponse = (loginResponse) => {
-    localStorage.setItem(tokenName, loginResponse.result.token?.Token);
+    localStorage.setItem(tokenName, loginResponse.result.token?.token);
 
     setUsuario(loginResponse.result.usuario);
-    setToken(loginResponse.result.token?.Token);
-    setPermisosModulos(loginResponse.result.permisosModulos);
-    setPermisosPaginas(loginResponse.result.permisosPaginas);
-    setPermisosBotones(loginResponse.result.permisosBotones);
-    setDefinicionMenu(JSON.parse(loginResponse.result.menu));
-    setConfiguracion(loginResponse.result.configuracion);
+    setToken(loginResponse.result.token?.token);
+    if (loginResponse.result.usuario.roles.sNombre === "Administrador") {
+      setDefinicionMenu({
+        mnuLibros: {
+          mostrar: true,
+          nombre: "Libros",
+          _paginas: {
+            libros: {
+              mostrar: true,
+              path: "/libros",
+              nombre: "Libros",
+            },
+            prestamos: {
+              mostrar: true,
+              path: "/prestamos",
+              nombre: "Prestamos",
+            },
+          },
+        },
+        mnuUsuarios: {
+          mostrar: true,
+          nombre: "Usuarios",
+          _paginas: {
+            usuarios: {
+              mostrar: true,
+              path: "/usuarios",
+              nombre: "Administar",
+            },
+          },
+        },
+        _paths: {},
+      });
+
+      setPermisosBotones([
+        {
+          claveBoton: "libro_agregar",
+          nombreBoton: "Agregar libro",
+          tienePermiso: true,
+        },
+        {
+          claveBoton: "libro_editar",
+          nombreBoton: "Editar libro",
+          tienePermiso: true,
+        },
+        {
+          claveBoton: "libro_eliminar",
+          nombreBoton: "Eliminar libro",
+          tienePermiso: true,
+        },
+      ]);
+    } else if (loginResponse.result.usuario.roles.sNombre === "Bibliotecario") {
+      setDefinicionMenu({
+        mnuLibros: {
+          mostrar: true,
+          nombre: "Libros",
+          _paginas: {
+            libros: {
+              mostrar: true,
+              path: "/libros",
+              nombre: "Libros",
+            },
+            prestamos: {
+              mostrar: true,
+              path: "/prestamos",
+              nombre: "Prestamos",
+            },
+          },
+        },
+        _paths: {},
+      });
+
+      setPermisosBotones([
+        {
+          claveBoton: "libro_editar",
+          nombreBoton: "Editar libro",
+          tienePermiso: true,
+        },
+      ]);
+    }
+
+    // setPermisosBotones(loginResponse.result.permisosBotones);
+    // setDefinicionMenu(JSON.parse(loginResponse.result.menu));
     setUsuarioEnSesion(true);
 
-    if (previousRoute === routeLogin) {
-      navigate(routeRoot, { replace: true });
-      return;
-    }
-
-    if (!isNullOrEmpty(previousRoute)) {
-      navigate(previousRoute, { replace: true });
-    }
+    navigate("/");
   };
 
   const getPermisoBoton = (clave) => {
@@ -208,26 +228,6 @@ export const SessionProvider = (props) => {
   const getNombreBoton = (clave) => {
     const boton = permisosBotones.find((x) => x.claveBoton === clave);
     return !boton ? null : boton.nombreBoton;
-  };
-
-  const getPermisoPagina = (clave) => {
-    const pagina = permisosPaginas.find((x) => x.clavePagina === clave);
-    return !pagina ? false : pagina.tienePermiso;
-  };
-
-  const getNombrePagina = (clave) => {
-    const pagina = permisosPaginas.find((x) => x.clavePagina === clave);
-    return !pagina ? null : pagina.nombrePagina;
-  };
-
-  const getPermisoModulo = (clave) => {
-    const modulo = permisosModulos.find((x) => x.claveModulo === clave);
-    return !modulo ? false : modulo.tienePermiso;
-  };
-
-  const getNombreModulo = (clave) => {
-    const modulo = permisosModulos.find((x) => x.claveModulo === clave);
-    return !modulo ? null : modulo.nombreModulo;
   };
 
   useEffect(() => {
@@ -251,31 +251,11 @@ export const SessionProvider = (props) => {
     navigate(routeLogin);
   };
 
-  const handleChangeCambiarPasswordForm = (e) => {
-    setCambiarPasswordForm({
-      ...cambiarPasswordForm,
-      [e.target.name]: {
-        value: e.target.value,
-        error: false,
-      },
-    });
-  };
-
-  const handleClickCambiarPassword = () => {
-    setCambiarPasswordForm(getCambiarPasswordForm());
-    setModalOpenCambioPasswordForm(true);
-  };
-  const handleCloseCambiarPassworForm = () => {
-    setModalOpenCambioPasswordForm(false);
-  };
-
   return (
     <SessionContext.Provider
       value={{
         usuario,
         token,
-        permisosModulos,
-        permisosPaginas,
         permisosBotones,
         usuarioEnSesion,
         configuracion,
@@ -287,14 +267,7 @@ export const SessionProvider = (props) => {
         handleClickCerrarSesion,
         getPermisoBoton,
         getNombreBoton,
-        getPermisoPagina,
-        getNombrePagina,
-        getPermisoModulo,
-        getNombreModulo,
         handleClickRegresarLogin,
-        handleClickCambiarPassword,
-        handleCloseCambiarPassworForm,
-        handleChangeCambiarPasswordForm,
       }}
     >
       {props.children}

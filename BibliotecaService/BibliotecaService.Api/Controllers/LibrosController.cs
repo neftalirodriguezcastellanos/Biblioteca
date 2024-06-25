@@ -73,7 +73,7 @@ namespace BibliotecaService.Api.Controllers
             return response;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{uIdLibro}")]
         public async Task<BBTCResponse<bool>> eliminar(Guid uIdLibro)
         {

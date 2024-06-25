@@ -8,13 +8,14 @@ import { isNullOrEmpty, isErrorForm } from "../../settings/utils";
 export const LibrosContext = createContext();
 
 export const LibrosProvider = (props) => {
-  const { GetRequest, PostRequest, PutRequest } = useRequest();
+  const { GetRequest, PostRequest, PutRequest, DeleteRequest } = useRequest();
   const { handleOpenAlert } = useLayout();
 
   const [listaLibros, setListaLibros] = useState([]);
   const [libroSeleccionado, setLibroSeleccionado] = useState(null);
   const [libroForm, setLibroForm] = useState(getLibroForm());
   const [openForm, setOpenForm] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
   const handleObtenerLibros = async () => {
@@ -36,6 +37,10 @@ export const LibrosProvider = (props) => {
 
   const handleOpenForm = (value) => {
     setOpenForm(value);
+  };
+
+  const handleOpenConfirm = (value) => {
+    setOpenConfirm(value);
   };
 
   const handleAgregarLibro = () => {
@@ -74,6 +79,10 @@ export const LibrosProvider = (props) => {
 
     setLibroForm(form);
     handleOpenForm(true);
+  };
+
+  const handleEliminarLibro = () => {
+    handleOpenConfirm(true);
   };
 
   const handleChangeText = (e) => {
@@ -149,6 +158,22 @@ export const LibrosProvider = (props) => {
     }
   };
 
+  const handleSubmitEliminar = async () => {
+    const response = await DeleteRequest({
+      url: apiLibros + "/" + libroSeleccionado.uIdLibro,
+      loader: "Eliminando libro...",
+    });
+
+    if (response.hasError) {
+      handleOpenAlert(response.message);
+    } else {
+      await handleObtenerLibros();
+      handleOpenAlert("Libro eliminado correctamente", "success");
+      handleSeleccionarLibro(null);
+      handleOpenConfirm(false);
+    }
+  };
+
   return (
     <LibrosContext.Provider
       value={{
@@ -157,6 +182,7 @@ export const LibrosProvider = (props) => {
         libroForm,
         openForm,
         isEdit,
+        openConfirm,
         handleObtenerLibros,
         handleSeleccionarLibro,
         handleOpenForm,
@@ -164,6 +190,9 @@ export const LibrosProvider = (props) => {
         handleSubmitForm,
         handleChangeText,
         handleActualizarLibro,
+        handleOpenConfirm,
+        handleEliminarLibro,
+        handleSubmitEliminar,
       }}
     >
       {props.children}

@@ -72,6 +72,18 @@ using (var _context = builder.Services.BuildServiceProvider().GetService<Bibliot
 
     _context.Usuarios.Add(usuario);
 
+    var usuarioBibliotecario = new EntUsuario
+    {
+        uIdUsuario = Guid.NewGuid(),
+        sEmail = "bibliotecario@biblioteca.com",
+        sPassword = "bibliotecario",
+        sNombre = "Bibliotecario",
+        sApellidos = "De la Biblioteca",
+        uIdRoles = rolBibliotecario.uIdRoles
+    };
+
+    _context.Usuarios.Add(usuarioBibliotecario);
+
     string sLibros = "[{\"uIdLibro\":\"79097388-398f-48e0-86b0-5d5badb2c91e\",\"sCodigo\":\"00001\",\"sTitulo\":\"Combate espiritual\",\"sAutor\":\"Scúpoli, Lorenzo\",\"sISBN\":\"978-607-69767-7-7\",\"sEditorial\":\"García Bellorín Juana Auxiliadora\",\"iAnio\":2024},{\"uIdLibro\":\"9f18181e-4fed-4f03-9b6b-b063bd2895e0\",\"sCodigo\":\"00002\",\"sTitulo\":\"El monstruo\",\"sAutor\":\"PardoNaredo,Pablo\",\"sISBN\":\"978-607-69899-1-3\",\"sEditorial\":\"Lid Editorial Mexicana\",\"iAnio\":2024},{\"uIdLibro\":\"dc8285f8-72ac-41a2-929d-460e0f6f22e2\",\"sCodigo\":\"00003\",\"sTitulo\":\"El encuentro entre la docencia y la realidad pospandemia: experiencias y narrativas\",\"sAutor\":\"Contreras Dávalos, Julio\",\"sISBN\":\"978-607-495-730-3\",\"sEditorial\":\"Secretaría de Educación del Gobierno del Estado de México\",\"iAnio\":2024},{\"uIdLibro\":\"801d9426-2e10-4012-900e-8cab0b60b28d\",\"sCodigo\":\"00004\",\"sTitulo\":\"Curso de ética general y aplicada\",\"sAutor\":\"Sada Fernández, Ricardo Manuel\",\"sISBN\":\"978-607-5909-13-4\",\"sEditorial\":\"Sada Fernández Ricardo Manuel\",\"iAnio\":2024},{\"uIdLibro\":\"5689cb5f-3910-45a8-b80d-23d9e16dfb18\",\"sCodigo\":\"00005\",\"sTitulo\":\"Navegar en aguas bravas\",\"sAutor\":\"Alba Romo, José Marcos\",\"sISBN\":\"978-607-8804-14-6\",\"sEditorial\":\"Sabino Cruz Viveros\",\"iAnio\":2024}]";
     var libros = System.Text.Json.JsonSerializer.Deserialize<List<EntLibro>>(sLibros);
 
