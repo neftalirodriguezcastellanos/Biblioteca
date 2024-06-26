@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BibliotecaService.Entities.Libros;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -34,6 +30,7 @@ namespace BibliotecaService.Data
                 var libroExist = await _context.Libros.FirstOrDefaultAsync(x => x.uIdLibro == libro.uIdLibro);
                 if (libroExist != null)
                 {
+                    libro.bDisponible = libroExist.bDisponible;
                     _context.Entry(libroExist).CurrentValues.SetValues(libro);
                     if (await _context.SaveChangesAsync() != 0)
                     {

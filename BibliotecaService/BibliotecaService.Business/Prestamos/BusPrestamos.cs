@@ -1,6 +1,4 @@
-using System.Data;
 using BibliotecaService.Data;
-using BibliotecaService.Entities.Libros;
 using BibliotecaService.Entities.Prestamos;
 using Microsoft.Extensions.Logging;
 

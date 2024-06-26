@@ -1,5 +1,4 @@
-﻿using System.Text;
-using BibliotecaService.Api;
+﻿using BibliotecaService.Api;
 using BibliotecaService.Data;
 using BibliotecaService.Entities.Libros;
 using BibliotecaService.Entities.Roles;
@@ -7,6 +6,7 @@ using BibliotecaService.Entities.Usuarios;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
