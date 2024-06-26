@@ -19,9 +19,9 @@ namespace BibliotecaService.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<BBTCResponse<List<EntUsuarioDTO>>> obtener()
+        public async Task<BBTCResponse<List<EntUsuarioLista>>> obtener()
         {
-            BBTCResponse<List<EntUsuarioDTO>> response = new BBTCResponse<List<EntUsuarioDTO>>();
+            BBTCResponse<List<EntUsuarioLista>> response = new BBTCResponse<List<EntUsuarioLista>>();
             try
             {
                 response = await _busUsuarios.Obtener();

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using BibliotecaService.Data;
@@ -120,12 +121,30 @@ namespace BibliotecaService.Business.Usuarios
             return response;
         }
 
-        public async Task<BBTCResponse<List<EntUsuarioDTO>>> Obtener()
+        public async Task<BBTCResponse<List<EntUsuarioLista>>> Obtener()
         {
-            BBTCResponse<List<EntUsuarioDTO>> response = new BBTCResponse<List<EntUsuarioDTO>>();
+            BBTCResponse<List<EntUsuarioLista>> response = new BBTCResponse<List<EntUsuarioLista>>();
             try
             {
-                response = await _datUsuarios.Obtener();
+                var usuarios = await _datUsuarios.Obtener();
+                if (!usuarios.HasError)
+                {
+                    var lista = usuarios.Result.Select(s => new EntUsuarioLista
+                    {
+                        uIdUsuario = s.uIdUsuario,
+                        sNombre = s.sNombre,
+                        sApellidos = s.sApellidos,
+                        sEmail = s.sEmail,
+                        sPassword = s.sPassword,
+                        sRol = s.Roles.sNombre
+                    }).ToList();
+
+                    response.SetSuccess(lista);
+                }
+                else
+                {
+                    response.SetError(usuarios.Message);
+                }
             }
             catch (Exception ex)
             {

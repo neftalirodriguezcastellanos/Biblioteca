@@ -1,5 +1,4 @@
 import { Grid, Typography } from "@mui/material";
-
 import BibliotecaLabelInfo from "../utils/BibliotecaLabelInfo";
 
 export default function LibrosDetalle(props) {

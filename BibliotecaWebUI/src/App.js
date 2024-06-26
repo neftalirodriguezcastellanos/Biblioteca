@@ -6,6 +6,7 @@ import { routeBase } from "./settings/routeConfig";
 import { AllSystemProvider } from "./context/system/AllSystemProvider";
 import { LibrosProvider } from "./context/libros/LibrosContext";
 import { PrestamosProvider } from "./context/prestamos/PrestamosContext";
+import { UsuariosProvider } from "./context/usuarios/UsuariosContext";
 import BibliotecaPage from "./components/layout/BibliotecaPage";
 
 function App() {
@@ -21,7 +22,9 @@ function App() {
         <AllSystemProvider>
           <LibrosProvider>
             <PrestamosProvider>
-              <BibliotecaPage />
+              <UsuariosProvider>
+                <BibliotecaPage />
+              </UsuariosProvider>
             </PrestamosProvider>
           </LibrosProvider>
         </AllSystemProvider>

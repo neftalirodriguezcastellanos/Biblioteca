@@ -133,7 +133,6 @@ export const PrestamosProvider = (props) => {
 
     if (response.hasError) {
       setPrestamosUsuario([]);
-      handleOpenAlert(response.message);
     } else {
       response.result.forEach((prestamo) => {
         prestamo.bSeleccionado = false;

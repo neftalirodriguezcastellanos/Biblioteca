@@ -65,7 +65,8 @@ namespace BibliotecaService.Business.Libros
                     sAutor = libro.sAutor,
                     sISBN = libro.sISBN,
                     sEditorial = libro.sEditorial,
-                    iAnio = libro.iAnio
+                    iAnio = libro.iAnio,
+                    bDisponible = true
                 };
 
                 response = await _datLibros.Agregar(newLibro);

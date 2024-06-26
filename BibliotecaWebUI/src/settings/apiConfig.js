@@ -10,3 +10,4 @@ export const apiLibrosPrestar = bibliotecaService + "/Prestamos/prestar";
 export const apiPrestamoUsuarios =
   bibliotecaService + "/Prestamos/prestamos-usuario";
 export const apiLibrosDevolver = bibliotecaService + "/Prestamos/devolver";
+export const apiUsuarios = bibliotecaService + "/usuarios";

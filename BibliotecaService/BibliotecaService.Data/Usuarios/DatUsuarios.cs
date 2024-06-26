@@ -124,6 +124,7 @@ namespace BibliotecaService.Data
                                {
                                    uIdUsuario = user.uIdUsuario,
                                    sApellidos = user.sApellidos,
+                                   sPassword = user.sPassword,
                                    sEmail = user.sEmail,
                                    sNombre = user.sNombre,
                                    uIdRoles = rol.uIdRoles,

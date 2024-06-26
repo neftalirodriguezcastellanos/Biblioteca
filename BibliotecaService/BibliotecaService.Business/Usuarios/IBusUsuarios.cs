@@ -11,7 +11,7 @@ namespace BibliotecaService.Business.Usuarios
         Task<BBTCResponse<bool>> Agregar(EntUsuarioDTO usuario);
         Task<BBTCResponse<bool>> Actualizar(EntUsuarioDTO usuario);
         Task<BBTCResponse<bool>> Eliminar(Guid uIdUsuario);
-        Task<BBTCResponse<List<EntUsuarioDTO>>> Obtener();
+        Task<BBTCResponse<List<EntUsuarioLista>>> Obtener();
         Task<BBTCResponse<EntUsuarioDTO>> Obtener(Guid uIdUsuario);
     }
 }
