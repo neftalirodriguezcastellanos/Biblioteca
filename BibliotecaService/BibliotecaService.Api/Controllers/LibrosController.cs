@@ -22,7 +22,7 @@ namespace BibliotecaService.Api.Controllers
             _busLibros = busLibros;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<BBTCResponse<bool>> agregar([FromBody] EntLibroDTO libro)
         {
@@ -40,9 +40,9 @@ namespace BibliotecaService.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<BBTCResponse<List<EntLibro>>> obtener()
+        public async Task<BBTCResponse<List<EntLibroListaDTO>>> obtener()
         {
-            BBTCResponse<List<EntLibro>> response = new BBTCResponse<List<EntLibro>>();
+            BBTCResponse<List<EntLibroListaDTO>> response = new BBTCResponse<List<EntLibroListaDTO>>();
             try
             {
                 response = await _busLibros.Obtener();
@@ -56,7 +56,7 @@ namespace BibliotecaService.Api.Controllers
             return response;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPut]
         public async Task<BBTCResponse<bool>> actualizar([FromBody] EntLibroDTO libro)
         {
@@ -73,7 +73,7 @@ namespace BibliotecaService.Api.Controllers
             return response;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("{uIdLibro}")]
         public async Task<BBTCResponse<bool>> eliminar(Guid uIdLibro)
         {

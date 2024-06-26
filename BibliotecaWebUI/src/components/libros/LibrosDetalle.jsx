@@ -1,10 +1,9 @@
 import { Grid, Typography } from "@mui/material";
 
 import BibliotecaLabelInfo from "../utils/BibliotecaLabelInfo";
-import { useLibros } from "../../context/libros/LibrosContext";
 
-export default function LibrosDetalle() {
-  const { libroSeleccionado } = useLibros();
+export default function LibrosDetalle(props) {
+  const { libroSeleccionado } = props;
 
   if (!libroSeleccionado) {
     return <Typography>Seleccione un registro para ver el detalle</Typography>;

@@ -121,13 +121,25 @@ namespace BibliotecaService.Data
             return response;
         }
 
-        public async Task<BBTCResponse<List<EntLibro>>> Obtener()
+        public async Task<BBTCResponse<List<EntLibroListaDTO>>> Obtener()
         {
-            BBTCResponse<List<EntLibro>> response = new BBTCResponse<List<EntLibro>>();
+            BBTCResponse<List<EntLibroListaDTO>> response = new BBTCResponse<List<EntLibroListaDTO>>();
 
             try
             {
-                response.SetSuccess(_context.Libros.ToList());
+                var libros = await _context.Libros.Select(x => new EntLibroListaDTO
+                {
+                    uIdLibro = x.uIdLibro,
+                    sCodigo = x.sCodigo,
+                    sTitulo = x.sTitulo,
+                    sAutor = x.sAutor,
+                    sISBN = x.sISBN,
+                    sEditorial = x.sEditorial,
+                    iAnio = x.iAnio,
+                    sPrestado = x.bDisponible ? "NO" : "SI"
+                }).ToListAsync();
+
+                response.SetSuccess(libros);
             }
             catch (Exception ex)
             {
@@ -161,6 +173,29 @@ namespace BibliotecaService.Data
                 response.SetError(ex.Message);
             }
 
+            return response;
+        }
+
+        public async Task<BBTCResponse<List<EntLibro>>> librosDisponibles()
+        {
+            BBTCResponse<List<EntLibro>> response = new BBTCResponse<List<EntLibro>>();
+            try
+            {
+                var libros = await _context.Libros.Where(x => x.bDisponible == true).ToListAsync();
+                if (libros != null)
+                {
+                    response.SetSuccess(libros);
+                }
+                else
+                {
+                    response.SetError("No hay libros disponibles");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error en obtener libros disponibles");
+                response.SetError(ex.Message);
+            }
             return response;
         }
     }

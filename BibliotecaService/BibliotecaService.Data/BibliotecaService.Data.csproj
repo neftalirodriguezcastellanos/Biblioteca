@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BibliotecaService.Entities\BibliotecaService.Entities.csproj" />
+    <ProjectReference Include="..\BibliotecaService.Utils\BibliotecaService.Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

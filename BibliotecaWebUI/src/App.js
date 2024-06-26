@@ -5,6 +5,7 @@ import { esES } from "@mui/x-date-pickers/locales";
 import { routeBase } from "./settings/routeConfig";
 import { AllSystemProvider } from "./context/system/AllSystemProvider";
 import { LibrosProvider } from "./context/libros/LibrosContext";
+import { PrestamosProvider } from "./context/prestamos/PrestamosContext";
 import BibliotecaPage from "./components/layout/BibliotecaPage";
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
       >
         <AllSystemProvider>
           <LibrosProvider>
-            <BibliotecaPage />
+            <PrestamosProvider>
+              <BibliotecaPage />
+            </PrestamosProvider>
           </LibrosProvider>
         </AllSystemProvider>
       </LocalizationProvider>

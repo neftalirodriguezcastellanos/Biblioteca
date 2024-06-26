@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BibliotecaService.Business.Autenticacion;
 using BibliotecaService.Business.Libros;
+using BibliotecaService.Business.Prestamos;
 using BibliotecaService.Business.Roles;
 using BibliotecaService.Business.Usuarios;
 using BibliotecaService.Data;
@@ -29,6 +30,10 @@ namespace BibliotecaService.Api
             //Libros
             services.AddScoped<IBusLibros, BusLibros>();
             services.AddScoped<IDatLibros, DatLibros>();
+
+            //Préstamos
+            services.AddScoped<IBusPrestamos, BusPrestamos>();
+            services.AddScoped<IDatPrestamos, DatPrestamos>();
 
             return services;
         }

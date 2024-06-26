@@ -15,7 +15,7 @@ namespace BibliotecaService.Data
         public DbSet<EntUsuario> Usuarios { get; set; }
         public DbSet<EntRol> Roles { get; set; }
         public DbSet<EntLibro> Libros { get; set; }
-        public DbSet<EntPrestamos> Prestamos { get; set; }
+        public DbSet<EntPrestamo> Prestamos { get; set; }
 
         public BibliotecaContext(DbContextOptions<BibliotecaContext> options)
         : base(options)

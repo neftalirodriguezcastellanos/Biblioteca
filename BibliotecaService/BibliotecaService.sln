@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliotecaService.Data", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliotecaService.Entities", "BibliotecaService.Entities\BibliotecaService.Entities.csproj", "{FCA129CA-CC02-4E94-8AD1-824E85C733DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliotecaService.Utils", "BibliotecaService.Utils\BibliotecaService.Utils.csproj", "{BC8C80B3-3319-4601-AE91-AC02C494F2D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FCA129CA-CC02-4E94-8AD1-824E85C733DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCA129CA-CC02-4E94-8AD1-824E85C733DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCA129CA-CC02-4E94-8AD1-824E85C733DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC8C80B3-3319-4601-AE91-AC02C494F2D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8C80B3-3319-4601-AE91-AC02C494F2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8C80B3-3319-4601-AE91-AC02C494F2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC8C80B3-3319-4601-AE91-AC02C494F2D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

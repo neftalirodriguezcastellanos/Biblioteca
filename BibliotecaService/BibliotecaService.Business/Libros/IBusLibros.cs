@@ -11,7 +11,8 @@ namespace BibliotecaService.Business.Libros
         Task<BBTCResponse<bool>> Agregar(EntLibroDTO libro);
         Task<BBTCResponse<bool>> Actualizar(EntLibroDTO libro);
         Task<BBTCResponse<bool>> Eliminar(Guid uIdLibro);
-        Task<BBTCResponse<List<EntLibro>>> Obtener();
+        Task<BBTCResponse<List<EntLibroListaDTO>>> Obtener();
         Task<BBTCResponse<EntLibro>> Obtener(Guid uIdLibro);
+        Task<BBTCResponse<List<EntLibro>>> librosDisponibles();
     }
 }

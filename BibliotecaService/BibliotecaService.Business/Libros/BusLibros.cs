@@ -94,9 +94,9 @@ namespace BibliotecaService.Business.Libros
             return response;
         }
 
-        public async Task<BBTCResponse<List<EntLibro>>> Obtener()
+        public async Task<BBTCResponse<List<EntLibroListaDTO>>> Obtener()
         {
-            BBTCResponse<List<EntLibro>> response = new BBTCResponse<List<EntLibro>>();
+            BBTCResponse<List<EntLibroListaDTO>> response = new BBTCResponse<List<EntLibroListaDTO>>();
             try
             {
                 response = await _datLibros.Obtener();
@@ -123,6 +123,21 @@ namespace BibliotecaService.Business.Libros
                 response.SetError(ex.Message);
             }
 
+            return response;
+        }
+
+        public async Task<BBTCResponse<List<EntLibro>>> librosDisponibles()
+        {
+            BBTCResponse<List<EntLibro>> response = new BBTCResponse<List<EntLibro>>();
+            try
+            {
+                response = await _datLibros.librosDisponibles();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error en obtener libros disponibles");
+                response.SetError(ex.Message);
+            }
             return response;
         }
     }

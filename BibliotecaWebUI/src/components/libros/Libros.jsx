@@ -30,7 +30,7 @@ export default function Libros() {
     <BibliotecaLayout
       titlePage={"Libros"}
       buttonActions={<LibrosActions />}
-      detailComponent={<LibrosDetalle />}
+      detailComponent={<LibrosDetalle libroSeleccionado={libroSeleccionado} />}
     >
       <BibliotecaTable
         columns={[
@@ -40,6 +40,7 @@ export default function Libros() {
           { title: "ISBN", field: "sISBN" },
           { title: "EDITORIAL", field: "sEditorial" },
           { title: "AÑO", field: "iAnio" },
+          { title: "PRESTADO", field: "sPrestado" },
         ]}
         data={listaLibros}
         id="uIdLibro"

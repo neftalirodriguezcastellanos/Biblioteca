@@ -159,6 +159,10 @@ export const LibrosProvider = (props) => {
   };
 
   const handleSubmitEliminar = async () => {
+    if (libroSeleccionado.sPrestado === "SI") {
+      handleOpenAlert("El libro seleccionado está prestado", "warning");
+      return;
+    }
     const response = await DeleteRequest({
       url: apiLibros + "/" + libroSeleccionado.uIdLibro,
       loader: "Eliminando libro...",

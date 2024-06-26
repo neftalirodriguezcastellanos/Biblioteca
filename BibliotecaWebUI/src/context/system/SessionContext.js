@@ -150,6 +150,11 @@ export const SessionProvider = (props) => {
               path: "/prestamos",
               nombre: "Prestamos",
             },
+            devoluciones: {
+              mostrar: true,
+              path: "/devoluciones",
+              nombre: "Devoluciones",
+            },
           },
         },
         mnuUsuarios: {
@@ -182,6 +187,16 @@ export const SessionProvider = (props) => {
           nombreBoton: "Eliminar libro",
           tienePermiso: true,
         },
+        {
+          claveBoton: "libro_prestar",
+          nombreBoton: "Prestar libros",
+          tienePermiso: true,
+        },
+        {
+          claveBoton: "libro_devolver",
+          nombreBoton: "Devolver libros",
+          tienePermiso: true,
+        },
       ]);
     } else if (loginResponse.result.usuario.roles.sNombre === "Bibliotecario") {
       setDefinicionMenu({
@@ -199,6 +214,11 @@ export const SessionProvider = (props) => {
               path: "/prestamos",
               nombre: "Prestamos",
             },
+            devoluciones: {
+              mostrar: true,
+              path: "/devoluciones",
+              nombre: "Devoluciones",
+            },
           },
         },
         _paths: {},
@@ -208,6 +228,16 @@ export const SessionProvider = (props) => {
         {
           claveBoton: "libro_editar",
           nombreBoton: "Editar libro",
+          tienePermiso: true,
+        },
+        {
+          claveBoton: "libro_prestar",
+          nombreBoton: "Prestar libros",
+          tienePermiso: true,
+        },
+        {
+          claveBoton: "libro_devolver",
+          nombreBoton: "Devolver libros",
           tienePermiso: true,
         },
       ]);
