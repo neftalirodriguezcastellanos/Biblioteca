@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace BibliotecaService.Entities.Utils
 {
     public interface IBBTCResponse<T>

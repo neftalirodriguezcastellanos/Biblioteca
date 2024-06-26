@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BibliotecaService.Entities.Prestamos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using BibliotecaService.Utils;
-using BibliotecaService.Entities.Libros;
 
 namespace BibliotecaService.Data
 {
